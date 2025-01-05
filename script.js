@@ -41,12 +41,12 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBkCMqPUCJYpgJBeEAvsve67gvPq99d4yc",
-  authDomain: "javascript-project--e-commerce.firebaseapp.com",
-  projectId: "javascript-project--e-commerce",
-  storageBucket: "javascript-project--e-commerce.firebasestorage.app",
-  messagingSenderId: "478342137748",
-  appId: "1:478342137748:web:bfeef9164cbc7b752cf181",
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
 };
 
 // Initialize Firebase
