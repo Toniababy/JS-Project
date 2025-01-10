@@ -38,16 +38,16 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import {firebaseConfig} from "./hide.js"
 
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBkCMqPUCJYpgJBeEAvsve67gvPq99d4yc",
-  authDomain: "javascript-project--e-commerce.firebaseapp.com",
-  projectId: "javascript-project--e-commerce",
-  storageBucket: "javascript-project--e-commerce.firebasestorage.app",
-  messagingSenderId: "478342137748",
-  appId: "1:478342137748:web:bfeef9164cbc7b752cf181",
-};
+// const firebaseConfig = {
+//   apiKey: "AIzaSyBkCMqPUCJYpgJBeEAvsve67gvPq99d4yc",
+//   authDomain: "javascript-project--e-commerce.firebaseapp.com",
+//   projectId: "javascript-project--e-commerce",
+//   storageBucket: "javascript-project--e-commerce.firebasestorage.app",
+//   messagingSenderId: "478342137748",
+//   appId: "1:478342137748:web:bfeef9164cbc7b752cf181",
+// };
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
@@ -75,7 +75,17 @@ document.addEventListener("DOMContentLoaded", () => {
         signOutOption.addEventListener("click", async () => {
           try {
             await signOut(auth);
-            alert("You have signed out successfully.");
+            Toastify({
+              text: "You have signed out successfully",
+              duration: 3000, // Duration in milliseconds
+              gravity: "top", // "top" or "bottom"
+              position: "right", // "left", "center", or "right"
+              style: {
+                background: "linear-gradient(to right, #088178, #088178)",
+                color: "#fff",
+              },
+            }).showToast();
+            // alert("You have signed out successfully.");
             window.location.reload();
           } catch (error) {
             console.error("Error signing out:", error);
@@ -90,6 +100,37 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("SignInOption or SignOutOption element not found in the DOM.");
   }
 });
+
+signOutOption.addEventListener("click", () => {
+  logoutUser();
+});
+
+async function logoutUser() {
+  try {
+    await signOut(auth); // Sign out the user
+    cart = []; // Clear the cart array
+    localStorage.clear(); // Clear all local storage (optional)
+    Toastify({
+      text: "You have signed out successfully",
+      duration: 3000, // Duration in milliseconds
+      gravity: "top", // "top" or "bottom"
+      position: "right", // "left", "center", or "right"
+      style: {
+        background: "linear-gradient(to right, #088178, #088178)",
+        color: "#fff",
+      },
+    }).showToast();
+    // alert("You have signed out successfully.");
+    window.location.reload(); // Reload the page to reset the UI
+  } catch (error) {
+    console.error("Error signing out:", error);
+  }
+}
+
+
+
+
+
 
 
 

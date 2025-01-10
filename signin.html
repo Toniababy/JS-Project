@@ -9,7 +9,7 @@
     
     <script src="https://flowbite.com/docs/flowbite.min.js"></script>
     <script src="https://kit.fontawesome.com/6c14a872c1.js" ></script>
-    <!-- <script type="module" src="./function.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     
 </head>
 <body>
@@ -35,9 +35,7 @@
         </div>
     </section>
 
-    <div>
-        <h2 id="tell"></h2>
-    </div>
+   
    
     <section>
         <div id="form-sec" class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
@@ -172,9 +170,18 @@
           const user = await addDoc(userRef, userOBJ);
 
           console.log(user);
-          tell.innerHTML = "Account Created successfully";
-        //   alert("Account Created successfully");
-          window.location.replace("./shop.html");
+          
+        Toastify({
+        text: "Congratulations Account Created successfully",
+        duration: 3000, // Duration in milliseconds
+        gravity: "top", // "top" or "bottom"
+        position: "right", // "left", "center", or "right"
+        style: {
+          background: "linear-gradient(to right, #088178, #088178)",
+          color: "#fff",
+        },
+      }).showToast();
+        //   window.location.replace("./shop.html");
 
         } catch (error) {
           console.log(error);

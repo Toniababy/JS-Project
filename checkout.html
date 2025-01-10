@@ -12,7 +12,8 @@
     <script src="https://kit.fontawesome.com/6c14a872c1.js" ></script>
    
 </head>
-<body>
+
+<body style="background-color: #CFD0D4;">
     <section id="header">
         <a href="#"><img src="./image/logo.PNG" id="logo" alt=""></a>
 
@@ -26,7 +27,7 @@
                 <a href="#" id="close"><i class="fa fa-times"></i></a>
                 <li><a id="signOutOption" style="display: none;" href="#">Log Out</a></li>
             </ul>
-            <a class="cart-icon" href="./shop.html"><i class="fa-solid fa-cart-shopping" style="color: #088178;" id="lg-black"></i><div id="cartAmount">0</div></a>
+            <!-- <a class="cart-icon" href="./shop.html"><i class="fa-solid fa-cart-shopping" style="color: #088178;" id="lg-black"></i><div id="cartAmount">0</div></a> -->
         </div>
         <div id="mobile">
             <!-- <a><i class="fa-solid fa-cart-shopping" style="color: #088178" id="lg-black"></i><div id="cartAmount">0</div></a> -->
@@ -34,35 +35,31 @@
         </div>
     </section>
 
-    <section id="page-header" class="shop-header">
-        <h2>Discover Your Perfect Look</h2>
-        <p>Explore our exclusive collection for your beauty essentials</p>
-        <!-- <button>Shop Now</button> -->
-    </section>
+    <div class="checkout-container">
+        <h1>Payment Section</h1>
+        <div class="container" style="margin-bottom: 20px;">
+            <div id="cartItem"></div>
+        </div>
 
-    <div>
-        <h2 style="text-align: center; padding-top: 10px;">Welcome <span id="userName"></span></h2>
+
+        <h3 id="totalPrice" class="total">Total: ₦0.00</h3>
+
+        <!-- Customer Details Form -->
+        <form id="checkoutForm">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" required>
+
+            <label for="address">Shipping Address</label>
+            <input type="text" id="address" required>
+
+            <button class="checkout-btn" id="orderBtn" type="submit">Place Order</button>
+        </form>
     </div>
 
-    <section id="container" class="section-p1 next1">
-        <div id="pro-container" >
- 
-        </div>
-        <div class="sidebar">
-            <div class="head"><p>My Cart</p></div>
-            <div id="cartItem">Your Cart is empty</div>
-            <div class="foot">
-                <h3>Total</h3>
-                <h3 id="totalPrice">₦0.00</h3>
-            </div>
-        </div>
-    </section>
-
-
-    
-
-
-    
+  
 
 <footer class="section-p1" >
     <div class="col">
@@ -121,49 +118,69 @@
 </footer>
 
 
-<script type="module" src="./function.js"></script>
+<!-- <script type="module" src="./function.js"></script> -->
 <script src="./script.js" type="module"></script>
 
 </body>
   <script type="module">
-    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-      import { auth, db, userRef } from "../script.js";
-      import { signOut } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-      import {
-        getDoc,
-        query,
-        where,
-        getDocs,
-      } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+    const cartItem = document.getElementById("cartItem");
+    const orderBtn = document.getElementById("orderBtn");
+let totalPriceElement = document.getElementById("totalPrice");
 
-      onAuthStateChanged(auth, async (user) => {
-        if (user?.uid) {
-          
+function loadCartFromLocalStorage() {
+    const cartData = JSON.parse(localStorage.getItem("cartData"));
+    
+    if (cartData) {
+        // Update the cart on checkout page
+        displayCart(cartData);
+        updateTotalPrice(cartData);
+    }
+}
 
-          await getUserDocumentFromFireStoreUsingTheIdArgumentSent(user.uid);
-        } else {
-          window.location.replace("./login.html");
-        }
-      });
+function displayCart(cartData) {
+    cartItem.innerHTML = "";  // Clear existing items
 
-      async function getUserDocumentFromFireStoreUsingTheIdArgumentSent(id) {
-        // console.log(id, "this is meee ohhh");
+    cartData.forEach(item => {
+        cartItem.innerHTML += `
+        <div class="cart-item">
+            <div class="row-img">
+                <img class="rowimg" src="${item.image}" alt=""/>
+            </div>
+            <p>${item.name}</p>
+            <h4 class="totalPrice">₦ ${item.price}.00</h4>
+            <p>Quantity: ${item.quantity}</p>
+        </div>
+        `;
+    });
+}
 
-        const userQuery = await query(userRef, where("uid", "==", id));
-        const querySnapshot = await getDocs(userQuery);
+function updateTotalPrice(cartData) {
+    let totalPrice = 0;
 
-        if (!querySnapshot.empty) {
-          querySnapshot.forEach((doc) => {
-            const user = doc.data();
-            document.getElementById("userName").innerHTML = user.username;
-          
-          });
-        }
+    cartData.forEach(item => {
+        totalPrice += item.price * item.quantity;
+    });
 
-        try {
-        } catch (error) {
-          console.log(error);
-        }
-      }
+    totalPriceElement.textContent = `Total: ₦ ${totalPrice}.00`;
+}
+
+
+loadCartFromLocalStorage();
+
+
+    orderBtn.addEventListener("click", function(event) {
+        event.preventDefault();
+        Toastify({
+        text: "Congratulations your order has been placed!",
+        duration: 3000, // Duration in milliseconds
+        gravity: "top", // "top" or "bottom"
+        position: "right", // "left", "center", or "right"
+        style: {
+          background: "linear-gradient(to right, #088178, #088178)",
+          color: "#fff",
+        },
+      }).showToast();
+    });
+
     </script>
 </html>

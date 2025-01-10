@@ -9,7 +9,7 @@
     
     <script src="https://flowbite.com/docs/flowbite.min.js"></script>
     <script src="https://kit.fontawesome.com/6c14a872c1.js" ></script>
-    <!-- <script type="module" src="./function.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 <body>
     <section id="header">
@@ -35,11 +35,6 @@
     </section>
 
 
-    <section id="page-header" class="contact-header">
-        <h2>Let Us Talk</h2>
-        <p>Eye belifs would like to get to know you</p>
-    
-    </section>
     <section>
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
             
@@ -89,7 +84,7 @@
             </div>
         </div>
     </div>
-        
+
         
 
     <div class="col">
@@ -151,7 +146,18 @@
 
           const res = await signInWithEmailAndPassword(auth, email, password);
 
-        //   alert("Log in successfully");
+        
+        Toastify({
+        text: "Congratulations you have logged in successfully!",
+        duration: 3000, // Duration in milliseconds
+        gravity: "top", // "top" or "bottom"
+        position: "right", // "left", "center", or "right"
+        style: {
+          background: "linear-gradient(to right, #088178, #088178)",
+          color: "#fff",
+        },
+      }).showToast();
+
           window.location.replace("./shop.html");
 
           // console.log("User created successfully!");
@@ -174,7 +180,17 @@
         signOutOption.addEventListener("click", async () => {
           try {
             await signOut(auth);
-            // alert("You have signed out successfully.");
+            Toastify({
+        text: "You have signed out successfully.",
+        duration: 3000, // Duration in milliseconds
+        gravity: "top", // "top" or "bottom"
+        position: "right", // "left", "center", or "right"
+        style: {
+          background: "linear-gradient(to right, #088178, #088178)",
+          color: "#fff",
+        },
+      }).showToast();
+            
             window.location.reload();
           } catch (error) {
             console.error("Error signing out:", error);
